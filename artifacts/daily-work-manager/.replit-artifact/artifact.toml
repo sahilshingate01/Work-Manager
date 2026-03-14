@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Daily Work Manager"
+version = "1.0.0"
+id = "artifacts/daily-work-manager"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 20480
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/daily-work-manager run dev"
+
+[services.env]
+PORT = "20480"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/daily-work-manager", "run", "build"]
+publicDir = "artifacts/daily-work-manager/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"

@@ -1,0 +1,14 @@
+import app from "./app";
+
+// Default to port 3001 for local development
+const rawPort = process.env["PORT"] ?? "3001";
+
+const port = Number(rawPort);
+
+if (Number.isNaN(port) || port <= 0) {
+  throw new Error(`Invalid PORT value: "${rawPort}"`);
+}
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});

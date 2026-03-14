@@ -1,0 +1,17 @@
+packages:
+  "framer-motion": "For premium smooth animations, page transitions, and staggered lists"
+  "date-fns": "For human-readable date formatting"
+  "clsx": "For conditional class merging"
+  "tailwind-merge": "For merging tailwind classes safely"
+  "react-hook-form": "For robust form state management"
+  "@hookform/resolvers": "For Zod schema validation integration"
+
+images:
+  - path: "artifacts/daily-work-manager/public/images/avatar.png"
+    description: "A cool, abstract, colorful geometric 3D avatar profile picture, dark theme"
+    aspect_ratio: "1:1"
+
+notes:
+  - API hooks are imported from @workspace/api-client-react
+  - Zod schemas are used from @workspace/api-client-react/src/generated/api.schemas for type safety
+  - The design uses a custom dark glassmorphism theme defined in index.css and implemented with Tailwind v4

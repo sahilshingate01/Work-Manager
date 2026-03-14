@@ -1,0 +1,247 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Daily Work Manager API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: works
+    description: Work entries
+  - name: ai
+    description: AI operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /works:
+    get:
+      operationId: getWorks
+      tags: [works]
+      summary: Get all work entries
+      responses:
+        "200":
+          description: List of work entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Work"
+    post:
+      operationId: createWork
+      tags: [works]
+      summary: Create a work entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateWorkInput"
+      responses:
+        "201":
+          description: Created work entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Work"
+
+  /works/{id}:
+    get:
+      operationId: getWork
+      tags: [works]
+      summary: Get a single work entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Work entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Work"
+        "404":
+          description: Not found
+    put:
+      operationId: updateWork
+      tags: [works]
+      summary: Update a work entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateWorkInput"
+      responses:
+        "200":
+          description: Updated work entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Work"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteWork
+      tags: [works]
+      summary: Delete a work entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResponse"
+        "404":
+          description: Not found
+
+  /ai/summarize:
+    post:
+      operationId: generateSummary
+      tags: [ai]
+      summary: Generate AI summary for work details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SummarizeInput"
+      responses:
+        "200":
+          description: Generated summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SummarizeResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Work:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        details:
+          type: string
+        link:
+          type: string
+          nullable: true
+        summary:
+          type: string
+          nullable: true
+        date:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - title
+        - details
+        - date
+        - createdAt
+        - updatedAt
+
+    CreateWorkInput:
+      type: object
+      properties:
+        title:
+          type: string
+        details:
+          type: string
+        link:
+          type: string
+          nullable: true
+        summary:
+          type: string
+          nullable: true
+        date:
+          type: string
+      required:
+        - title
+        - details
+        - date
+
+    UpdateWorkInput:
+      type: object
+      properties:
+        title:
+          type: string
+        details:
+          type: string
+        link:
+          type: string
+          nullable: true
+        summary:
+          type: string
+          nullable: true
+        date:
+          type: string
+
+    DeleteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    SummarizeInput:
+      type: object
+      properties:
+        details:
+          type: string
+      required:
+        - details
+
+    SummarizeResponse:
+      type: object
+      properties:
+        summary:
+          type: string
+      required:
+        - summary
