@@ -8,7 +8,7 @@
     "start": "pnpm --filter @workspace/api-server start"
   },
   "engines": {
-    "node": ">=18",
+    "node": "20.x",
     "pnpm": ">=9"
   },
   "private": true,
