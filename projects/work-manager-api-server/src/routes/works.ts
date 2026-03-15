@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { db, worksTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 
 const router = Router();
 
-router.get("/works", async (_req, res) => {
+router.get("/works", async (_req: Request, res: Response) => {
   try {
     const works = await db
       .select()
@@ -22,7 +22,7 @@ router.get("/works", async (_req, res) => {
   }
 });
 
-router.post("/works", async (req, res) => {
+router.post("/works", async (req: Request, res: Response) => {
   try {
     const { title, details, link, summary, date } = req.body;
     if (!title || !details || !date) {
@@ -44,9 +44,9 @@ router.post("/works", async (req, res) => {
   }
 });
 
-router.get("/works/:id", async (req, res) => {
+router.get("/works/:id", async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     const [work] = await db.select().from(worksTable).where(eq(worksTable.id, id));
     if (!work) {
       res.status(404).json({ error: "Work not found" });
@@ -63,9 +63,9 @@ router.get("/works/:id", async (req, res) => {
   }
 });
 
-router.put("/works/:id", async (req, res) => {
+router.put("/works/:id", async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     const { title, details, link, summary, date } = req.body;
     const [updated] = await db
       .update(worksTable)
@@ -94,9 +94,9 @@ router.put("/works/:id", async (req, res) => {
   }
 });
 
-router.delete("/works/:id", async (req, res) => {
+router.delete("/works/:id", async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     const [deleted] = await db
       .delete(worksTable)
       .where(eq(worksTable.id, id))

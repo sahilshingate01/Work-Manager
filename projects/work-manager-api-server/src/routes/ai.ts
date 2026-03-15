@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 
 const router = Router();
 
-router.post("/ai/summarize", async (req, res) => {
+router.post("/ai/summarize", async (req: Request, res: Response) => {
   try {
     const { details } = req.body;
     if (!details || typeof details !== "string") {
