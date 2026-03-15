@@ -1,4 +1,4 @@
-import app from "./app";
+import app from "./app.js";
 
 // Default to port 3001 for local development
 const rawPort = process.env["PORT"] ?? "3001";

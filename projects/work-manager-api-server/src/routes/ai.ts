@@ -1,17 +1,19 @@
-import { Router, type IRouter } from "express";
+import { Router } from "express";
 
-const router: IRouter = Router();
+const router = Router();
 
 router.post("/ai/summarize", async (req, res) => {
   try {
     const { details } = req.body;
     if (!details || typeof details !== "string") {
-      return res.status(400).json({ error: "details text is required" });
+      res.status(400).json({ error: "details text is required" });
+      return;
     }
 
     const apiKey = process.env.NVIDIA_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: "NVIDIA_API_KEY is not configured" });
+      res.status(500).json({ error: "NVIDIA_API_KEY is not configured" });
+      return;
     }
 
     const response = await fetch(
@@ -44,7 +46,8 @@ router.post("/ai/summarize", async (req, res) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("NVIDIA API error:", response.status, errorText);
-      return res.status(502).json({ error: "Failed to generate summary from AI service" });
+      res.status(502).json({ error: "Failed to generate summary from AI service" });
+      return;
     }
 
     const data = (await response.json()) as {

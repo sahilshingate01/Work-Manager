@@ -1,8 +1,8 @@
-import { Router, type IRouter } from "express";
+import { Router } from "express";
 import { db, worksTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 
-const router: IRouter = Router();
+const router = Router();
 
 router.get("/works", async (_req, res) => {
   try {
@@ -26,7 +26,8 @@ router.post("/works", async (req, res) => {
   try {
     const { title, details, link, summary, date } = req.body;
     if (!title || !details || !date) {
-      return res.status(400).json({ error: "title, details, and date are required" });
+      res.status(400).json({ error: "title, details, and date are required" });
+      return;
     }
     const [work] = await db
       .insert(worksTable)
@@ -47,7 +48,10 @@ router.get("/works/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
     const [work] = await db.select().from(worksTable).where(eq(worksTable.id, id));
-    if (!work) return res.status(404).json({ error: "Work not found" });
+    if (!work) {
+      res.status(404).json({ error: "Work not found" });
+      return;
+    }
     res.json({
       ...work,
       createdAt: work.createdAt.toISOString(),
@@ -75,7 +79,10 @@ router.put("/works/:id", async (req, res) => {
       })
       .where(eq(worksTable.id, id))
       .returning();
-    if (!updated) return res.status(404).json({ error: "Work not found" });
+    if (!updated) {
+      res.status(404).json({ error: "Work not found" });
+      return;
+    }
     res.json({
       ...updated,
       createdAt: updated.createdAt.toISOString(),
@@ -94,7 +101,10 @@ router.delete("/works/:id", async (req, res) => {
       .delete(worksTable)
       .where(eq(worksTable.id, id))
       .returning();
-    if (!deleted) return res.status(404).json({ error: "Work not found" });
+    if (!deleted) {
+      res.status(404).json({ error: "Work not found" });
+      return;
+    }
     res.json({ success: true, message: "Work deleted successfully" });
   } catch (err) {
     console.error("Error deleting work:", err);
