@@ -1,87 +1,40 @@
-# ================================
-# Dependencies
-# ================================
+# Node modules
 node_modules/
-**/node_modules/
-.pnp
-.pnp.js
 
-# ================================
-# Build outputs
-# ================================
-dist/
-**/dist/
-build/
-**/build/
-out/
-.output/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# ================================
-# Environment files (NEVER commit these)
-# ================================
+# Environment files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.production
 
-# ================================
-# Logs
-# ================================
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+# Build folders
+dist/
+build/
+out/
 
-# ================================
 # OS files
-# ================================
 .DS_Store
-**/.DS_Store
 Thumbs.db
-desktop.ini
 
-# ================================
-# Editor / IDE
-# ================================
+# Editor folders
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
-# ================================
-# Package manager lock files (we use pnpm-lock.yaml)
-# ================================
+# Temporary files
+*.tmp
+*.temp
+
+# Package lock (optional)
 package-lock.json
 yarn.lock
 
-# ================================
-# Cache / temp
-# ================================
+# Cache
 .cache/
-.turbo/
-*.tmp
-*.temp
-.eslintcache
-.stylelintcache
-
-# ================================
-# TypeScript
-# ================================
-*.tsbuildinfo
-
-# ================================
-# Vercel
-# ================================
-.vercel/
-
-# ================================
-# pnpm
-# ================================
-.pnpm-store/
